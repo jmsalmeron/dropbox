@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+//vistas principales
+Route::view('/', 'index')->name('home');
+Route::view('/seguridad', 'secure')->name('secure');
+
+
+//auth
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+//admin
+Route::get('/home', 'HomeController@index')->name('dashboard');

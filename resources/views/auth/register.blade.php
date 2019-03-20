@@ -1,13 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.old-app')
 
 @section('content')
-<div class="container">
+    <main role="main">
+        <section class="jumbotron text-center mb-0">
+            <div class="row pt-5">
+                <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
+                    <img src="{{asset('img/auth/register.svg')}}" class="mb-5 mt-3" width="100">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -74,4 +78,7 @@
         </div>
     </div>
 </div>
+            </div>
+        </section>
+    </main>
 @endsection
