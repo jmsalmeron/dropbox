@@ -9,7 +9,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10">
                             <div class="card">
-                                <div class="card-header">{{ __('Acceder') }}</div>
+                                <div class="card-header">{{ __('Login') }}</div>
                                 <div class="card-body">
                                     <img src="{{asset('img/auth/login.svg')}}" class="mb-5 mt-3" width="100">
                                     <form method="POST" action="{{ route('login') }}">
@@ -30,7 +30,7 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
+                                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                                             <div class="col-md-6">
                                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -49,7 +49,7 @@
                                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                                     <label class="form-check-label" for="remember">
-                                                        {{ __('Recuerdame') }}
+                                                        {{ __('Forgot Your Password?') }}
                                                     </label>
                                                 </div>
                                             </div>
@@ -58,15 +58,15 @@
                                         <div class="form-group row mb-0">
                                             <div class="col-md-8 offset-md-4">
                                                 <button type="submit" class="btn btn-outline-info">
-                                                    {{ __('Acceder') }}
+                                                    {{ __('Login') }}
                                                 </button>
 
                                                 @if (Route::has('password.request'))
                                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                        {{ __('¿Olvidaste la contraseña?') }}
+                                                        {{ __('Remember Me') }}
                                                     </a>
                                                     <a class="btn btn-link" href="{{ route('register') }}">
-                                                        {{ __('Registrarse') }}
+                                                        {{ __('Register') }}
                                                     </a>
                                                 @endif
                                             </div>
