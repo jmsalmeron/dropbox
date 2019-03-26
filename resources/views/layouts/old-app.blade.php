@@ -44,9 +44,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Preguntas frecuentes</a>
                 </li>
+                @guest
                 <li class="nav-item">
                     <a href="{{route('login')}}" class="btn btn-outline-primary">Login</a>
                 </li>
+                @endguest
+                @if (auth()->user())
+                <li class="nav-item">
+                <a class="btn btn-outline-primary" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                </li>
+                @endif
             </ul>
         </div>
     </nav>
