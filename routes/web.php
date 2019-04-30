@@ -25,8 +25,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('dashboard');
 
 //Files
-Route::get('archivos', 'FilesController@index');
-Route::get('archivos/subir', 'FilesController@create');
-Route::post('archivos/subir', 'FilesController@store');
+//Route::get('archivos', 'FilesController@index');
+Route::get('archivos/subir', 'FilesController@create')->name('files.create');
+Route::post('archivos/subir', 'FilesController@store')->name('files.store');
 Route::put('archivos/editar/{id}', 'FilesController@edit');
 Route::delete('archivos/eliminar/{id}', 'FilesController@destroy');

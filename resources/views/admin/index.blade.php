@@ -1,28 +1,8 @@
 @extends('admin.layouts.app')
 
+@section('page', 'Panel Administrativo')
+
 @section('content')
-
-    <!-- Page Content Holder -->
-    <div id="content">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-
-                <button type="button" id="sidebarCollapse" class="navbar-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
-                <div id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a>Panel administrativo</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
         <div class="panel panel-container container shadow-sm">
             <div class="row">
@@ -70,7 +50,6 @@
             </div>
         </div>
 
-    </div>
     </div>
 
 @endsection
