@@ -25,8 +25,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('dashboard');
 
 //Files
-//Route::get('archivos', 'FilesController@index');
+Route::get('archivos/imagenes', 'FilesController@images')->name('files.images');
+Route::get('archivos/videos', 'FilesController@videos')->name('files.videos');
+Route::get('archivos/musica', 'FilesController@audios')->name('files.audios');
+Route::get('archivos/documentos', 'FilesController@documents')->name('files.documents');
 Route::get('archivos/subir', 'FilesController@create')->name('files.create');
 Route::post('archivos/subir', 'FilesController@store')->name('files.store');
-Route::put('archivos/editar/{id}', 'FilesController@edit');
-Route::delete('archivos/eliminar/{id}', 'FilesController@destroy');
+//Route::put('archivos/editar/{id}', 'FilesController@edit');
+Route::patch('archivos/eliminar/{id}', 'FilesController@destroy')->name('files.destroy');

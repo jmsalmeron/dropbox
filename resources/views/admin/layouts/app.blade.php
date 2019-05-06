@@ -5,11 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <link href="css/admin.css" rel="stylesheet">
-    <script src="js/app.js"></script>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    @yield('internalscript')
+
 
     <title>Dashboard</title>
 </head>
@@ -19,14 +20,14 @@
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
-        <a class="navbar-brand ml-4" href="#">
+        <a class="navbar-brand ml-4 pt-4" href="#">
             <img src={{ asset('img/logo.png') }} width="30" height="30" class="d-inline-block align-top" alt="">
             AspergerBox
         </a>
 
         <div class="container mt-4 mb-2">
             <div class="mb-2">
-                <img src="img/users/user.jpg" class="img-responsive" style="border-radius: 50%;" alt="" width="70">
+                <img src="{{ asset('img/users/user.jpg') }}" class="img-responsive" style="border-radius: 50%;" alt="" width="70">
             </div>
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">Brayan Angarita</div>
@@ -59,16 +60,16 @@
                         <a href="{{ route('files.create') }}">Subir archivos</a>
                     </li>
                     <li>
-                        <a href="#">Imágenes</a>
+                        <a href="{{ route('files.images') }}">Imágenes</a>
                     </li>
                     <li>
-                        <a href="#">Videos</a>
+                        <a href="{{ route('files.videos') }}">Videos</a>
                     </li>
                     <li>
-                        <a href="#">Documentos</a>
+                        <a href="{{ route('files.audios') }}">Musica</a>
                     </li>
                     <li>
-                        <a href="#">ZIP</a>
+                        <a href="{{ route('files.documents') }}">Documentos</a>
                     </li>
                 </ul>
             </li>
@@ -147,6 +148,9 @@
                 </div>
             </div>
         </nav>
+
+        @include('admin.partials.alert')
+        @include('admin.partials.error')
 
 @yield('content')
 

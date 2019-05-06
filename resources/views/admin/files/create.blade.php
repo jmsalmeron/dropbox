@@ -20,3 +20,9 @@
     </form>
 
 @endsection
+
+@section('internalscript')
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <script src="../js/app.js"></script>
+@endsection
