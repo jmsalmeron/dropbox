@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($videos as $video)
+                    @forelse($videos as $video)
                         <tr>
                             <th scope="row">
                                 @if($video->extension == 'mp4' || $video->extension == 'MP4' || $video->extension == 'vid' || $video->extension == 'VID')
@@ -39,7 +39,15 @@
                             </th>
                         </tr>
                     </tbody>
-                    @endforeach
+
+                    @empty
+                        <div class="container mb-4">
+                            <div class="alert alert-warning" role="alert">
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">x</span>
+                                <strong>Vaya</strong> Parece que aun no tienes videos
+                            </div>
+                        </div>
+                    @endforelse
                 </table>
             </div>
         </div>

@@ -18,7 +18,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($documents as $document)
+                    @forelse($documents as $document)
                         <tr>
                             <th scope="row">
                                 @if($document->extension == 'doc' || $document->extension == 'DOC' || $document->extension == 'docx' || $document->extension == 'DOX' || $document->extension == 'odt' || $document->extension == 'ODT')
@@ -47,7 +47,15 @@
                             </th>
                         </tr>
                     </tbody>
-                    @endforeach
+
+                    @empty
+                        <div class="container mb-4">
+                            <div class="alert alert-warning" role="alert">
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">x</span>
+                                <strong>Vaya</strong> Parece que aun no tienes documentos
+                            </div>
+                        </div>
+                    @endforelse
                 </table>
             </div>
         </div>

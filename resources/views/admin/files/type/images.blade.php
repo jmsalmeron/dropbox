@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="row">
-            @foreach($images as $image)
+            @forelse($images as $image)
                 <div class="col-md-4 col-sm-6">
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{{ asset('storage') }}/{{ $folder }}/image/{{ $image->name }}.{{ $image->extension }}" alt="{{$image->name }}">
@@ -20,7 +20,15 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+
+                @empty
+                    <div class="container mb-4">
+                        <div class="alert alert-warning" role="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">x</span>
+                            <strong>Vaya</strong> Parece que aun no tienes imagenes
+                        </div>
+                    </div>
+            @endforelse
         </div>
     </div>
 

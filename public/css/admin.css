@@ -348,3 +348,7 @@ button.btn.btn-primary.file {
   background-color: #3cb878;
 }
 
+.alert-warning {
+  background-color: #fde300;
+}
+
