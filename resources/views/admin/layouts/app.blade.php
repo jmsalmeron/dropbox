@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     @yield('internalscript')
@@ -78,10 +78,10 @@
                 <a href="#rolesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-unlock-alt"></i> Roles</a>
                 <ul class="collapse list-unstyled" id="rolesSubmenu">
                     <li>
-                        <a href="#">Ver todos</a>
+                        <a href="{{ route('roles.index') }}">Ver todos</a>
                     </li>
                     <li>
-                        <a href="#">Agregar rol</a>
+                        <a href="{{ route('roles.create') }}">Agregar rol</a>
                     </li>
                 </ul>
             </li>
@@ -90,10 +90,10 @@
                 <a href="#permissionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-fingerprint"></i> Permisos</a>
                 <ul class="collapse list-unstyled" id="permissionSubmenu">
                     <li>
-                        <a href="#">Ver todos</a>
+                        <a href="{{ route('permissions.index') }}">Ver todos</a>
                     </li>
                     <li>
-                        <a href="#">Agregar permiso</a>
+                        <a href="{{ route('permissions.create') }}">Agregar permiso</a>
                     </li>
                 </ul>
             </li>

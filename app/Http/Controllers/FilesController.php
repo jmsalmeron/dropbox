@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class FilesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(['role:ADMIN']);
+    }
+
     public function create()
     {
         return view('admin.files.create');
@@ -46,7 +53,7 @@ class FilesController extends Controller
     {
         $max_size = (int)ini_get('upload_max_filesize') * 1000;
         $all_ext = implode(',', $this->allExtension());
-        $this->validate(request(), [
+        $this->validate($request, [
            'file.*' => 'required|file|mimes:' .$all_ext . '|max:' .$max_size
         ]);
         $uploadFile = new File();
@@ -67,11 +74,6 @@ class FilesController extends Controller
     private $video_ext = ['mp4', 'avi', 'vid', 'MP4', 'AVI', 'VID'];
     private $document_ext = ['xlsx', 'doc', 'docx', 'pdf', 'odt', 'DOC', 'DOCX', 'PDF', 'ODT', 'XLSX'];
     private $audio_ext = ['m4a', 'mp3', 'mpga', 'wma', 'ogg', 'MP3', 'MPGA', 'WMA', 'OGG'];
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     private function getType($ext)
     {

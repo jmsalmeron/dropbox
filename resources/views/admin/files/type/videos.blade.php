@@ -18,24 +18,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse($videos as $video)
+                    @forelse($videos as $role)
                         <tr>
                             <th scope="row">
-                                @if($video->extension == 'mp4' || $video->extension == 'MP4' || $video->extension == 'vid' || $video->extension == 'VID')
+                                @if($role->extension == 'mp4' || $role->extension == 'MP4' || $role->extension == 'vid' || $role->extension == 'VID')
                                     <img src="{{ asset('img/files/mp4.svg') }}" class="img-responsive" width="50">
-                                @elseif($video->extension == 'avi' || $video->extension == 'AVI')
+                                @elseif($role->extension == 'avi' || $role->extension == 'AVI')
                                     <img src="{{ asset('img/files/avi.svg') }}" class="img-responsive" width="50">
                                 @endif
                             </th>
-                            <th scope="row">{{$video->name}}</th>
-                            <th scope="row">{{$video->created_at->DiffForHumans()}}</th>
-                            <th scope="row"><a class="btn btn-primary" target="_blank" href="{{ asset('storage') }}/{{ $folder }}/video/{{ $video->name }}.{{ $video->extension }}"><i class="fas fa-eye"></i> Ver</a></th>
+                            <th scope="row">{{$role->name}}</th>
+                            <th scope="row">{{$role->created_at->DiffForHumans()}}</th>
+                            <th scope="row"><a class="btn btn-primary" target="_blank" href="{{ asset('storage') }}/{{ $folder }}/role/{{ $role->name }}.{{ $role->extension }}"><i class="fas fa-eye"></i> Ver</a></th>
                             <th scope="row">
-                                <form action="{{ route('files.destroy', $video->id) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="PATCH">
-                                    <button class="btn btn-danger float-right" type="submit"><i class="fas fa-trash"></i> Eliminar</button>
-                                </form>
+                                <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal" type="submit">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">¿Desea eliminar este archivo?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Los archivos que elimine no se podrán recuperar</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+                                                <form action="{{ route('files.destroy', $role->id) }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="PATCH">
+                                                    <button class="btn btn-danger float-right" type="submit"><i class="fas fa-trash"></i> Eliminar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </th>
                         </tr>
                     </tbody>
@@ -61,3 +83,4 @@
 
     <script src="../js/app.js"></script>
 @endsection
+
