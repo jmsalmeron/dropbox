@@ -13,7 +13,6 @@ class FilesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['role:ADMIN']);
     }
 
     public function create()
@@ -44,7 +43,13 @@ class FilesController extends Controller
 
     public function documents()
     {
-        $documents = File::whereUserId(auth()->id())->OrderBy('id', 'desc')->where('type', '=', 'document')->get();
+
+        if(Auth::check() && Auth::user()->hasRole('ADMIN')){
+            $documents = File::where('type', '=', 'document')->OrderBy('id', 'desc')->get();
+        }else{
+            $documents = File::whereUserId(auth()->id())->OrderBy('id', 'desc')->where('type', '=', 'document')->get();
+        }
+
         $folder = str_slug(Auth()->user()->name .'-'. Auth()->id());
         return view('admin.files.type.documents', compact('documents','folder'));
     }
@@ -64,7 +69,13 @@ class FilesController extends Controller
         $type = $this->getType($ext);
 
         if(Storage::putFileAs('/public/'.$this->getUserFolder().'/'.$type.'/', $file, $name .'.'. $ext)){
-            $uploadFile::create(['name' => $name, 'type' => $type, 'extension' => $ext, 'user_id' => Auth::id()]);
+            $uploadFile::create([
+                'name' => $name,
+                'type' => $type,
+                'extension' => $ext,
+                'folder' => $this->getUserFolder(),
+                'user_id' => Auth::id()
+            ]);
         }
 
         return back()->with('info', ['success', 'Archivo subido con exito']);
@@ -102,9 +113,9 @@ class FilesController extends Controller
         return str_slug($folder);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $file = File::findOrFail($id);
+        $file = File::findOrFail($request->get('file_id'));
         if(Storage::disk('local')->exists('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name . '.' . $file->extension)){
             if(Storage::disk('local')->delete('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name . '.' . $file->extension)){
                 $file->delete();

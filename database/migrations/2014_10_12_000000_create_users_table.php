@@ -17,9 +17,31 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('image')->default('perfil.svg');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            //Cashier
+            $table->string('stripe_id')->nullable()->collation('utf8mb4_bin');
+            $table->string('card_brand')->nullable();
+            $table->string('card_last_four', 4)->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+
             $table->rememberToken();
+            $table->timestamps();
+        });
+
+        //Subscription table
+
+        Schema::create('subscriptions', function ($table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
+            $table->string('stripe_id')->collation('utf8mb4_bin');
+            $table->string('stripe_plan');
+            $table->integer('quantity');
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
             $table->timestamps();
         });
     }
@@ -32,5 +54,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('subscriptions');
     }
 }

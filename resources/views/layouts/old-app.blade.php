@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
 
     <title>AspergerBox</title>
 </head>
@@ -18,7 +19,7 @@
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top alert-home">
-        <a class="navbar-brand" href="{{route('home')}}">
+        <a class="navbar-brand" href="{{route('dashboard')}}">
             <img src={{asset("img/logo.png")}} width="30" height="30" class="d-inline-block align-top" alt="">
             AspergerBox
         </a>
@@ -30,7 +31,7 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{route('home')}}">Inicio <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{route('dashboard')}}">Inicio <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Características</a>
@@ -45,23 +46,32 @@
                     <a class="nav-link" href="#">Preguntas frecuentes</a>
                 </li>
                 @guest
-                <li class="nav-item">
-                    <a href="{{route('login')}}" class="btn btn-outline-primary">Login</a>
-                </li>
-                @endguest
-                @if (auth()->user())
-                <li class="nav-item">
-                <a class="btn btn-outline-primary" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                </a>
+                    <li class="nav-item">
+                        <a href="{{route('login')}}" class="btn btn-outline-primary">Login</a>
+                    </li>
+                @else
+                    @if(Auth::user()->hasRole('SUBS'))
+                        <li class="nav-item">
+                            <a href="{{ route('files.create') }}" class="nav-link">Sube tus archivos</a>
+                        </li>
+                    @endif
+                    @if(Auth::user()->hasRole('ADMIN'))
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard') }}" class="nav-link">Panel administrativo</a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                </li>
-                @endif
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    </li>
+                @endguest
             </ul>
         </div>
     </nav>

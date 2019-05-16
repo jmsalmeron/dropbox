@@ -344,11 +344,19 @@ button.btn.btn-primary.file {
   font-size: 1rem;
 }
 
+.alert-danger {
+  background-color: #ff3133;
+}
+
 .alert-success {
   background-color: #3cb878;
 }
 
+.alert-info {
+  background-color: #318dff;
+}
+
 .alert-warning {
-  background-color: #fde300;
+  background-color: #fcb03b;
 }
 

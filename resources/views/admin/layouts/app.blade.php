@@ -30,103 +30,17 @@
                 <img src="{{ asset('img/users/user.jpg') }}" class="img-responsive" style="border-radius: 50%;" alt="" width="70">
             </div>
             <div class="profile-usertitle">
-                <div class="profile-usertitle-name">Brayan Angarita</div>
-                <div class="profile-usertitle-status">admin@admin.com</div>
+                <div class="profile-usertitle-name">{{ Auth::user()->name }}</div>
+                <div class="profile-usertitle-status">{{ Auth::user()->email }}</div>
             </div>
         </div>
 
 
         <ul class="list-unstyled components">
-            <li class="active">
-                <a href="#"><i class="fas fa-chart-line"></i> Panel</a>
-            </li>
-
-            <li>
-                <a href="#profileSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i> Mi perfil</a>
-                <ul class="collapse list-unstyled" id="profileSubmenu">
-                    <li>
-                        <a href="#">Ver mi perfil</a>
-                    </li>
-                    <li>
-                        <a href="#">Actualizar perfil</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#filesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-file-upload"></i> Mis archivos</a>
-                <ul class="collapse list-unstyled" id="filesSubmenu">
-                    <li>
-                        <a href="{{ route('files.create') }}">Subir archivos</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('files.images') }}">Imágenes</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('files.videos') }}">Videos</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('files.audios') }}">Musica</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('files.documents') }}">Documentos</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#rolesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-unlock-alt"></i> Roles</a>
-                <ul class="collapse list-unstyled" id="rolesSubmenu">
-                    <li>
-                        <a href="{{ route('roles.index') }}">Ver todos</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('roles.create') }}">Agregar rol</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#permissionSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-fingerprint"></i> Permisos</a>
-                <ul class="collapse list-unstyled" id="permissionSubmenu">
-                    <li>
-                        <a href="{{ route('permissions.index') }}">Ver todos</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('permissions.create') }}">Agregar permiso</a>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-users"></i> Usuarios</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Ver todos</a>
-                    </li>
-                    <li>
-                        <a href="#">Agregar rol</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="far fa-question-circle"></i> Soporte</a>
-            </li>
+            @include('admin.partials.menu')
         </ul>
 
-        <ul class="list-unstyled CTAs">
-            <li>
-                <a class="logout" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                    <i class="fas fa-power-off"></i>{{ __('Logout') }}
-                </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </li>
-        </ul>
     </nav>
 
     <div id="content">
@@ -165,6 +79,9 @@
         });
     });
 </script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 @yield('scripts')
 

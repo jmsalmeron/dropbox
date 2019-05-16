@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Plan;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
-class RolesController extends Controller
+class PlansController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['role:ADMIN|AYUDANTE']);
+        $this->middleware(['role:ADMIN']);
     }
 
     /**
@@ -23,8 +21,8 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-        return view('admin.roles.index', compact('roles'));
+        $plans = Plan::all();
+        return view('admin.subscriptions.index', compact('plans'));
     }
 
     /**
@@ -34,8 +32,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
-        return view('admin.roles.create', compact('permissions'));
+        return view('admin.subscriptions.create');
     }
 
     /**
@@ -46,10 +43,8 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create($request->except('permissions'));
-        $role->permissions()->sync($request->get('permissions'));
-
-        return back()->with('info', ['success', 'Se ha creado el rol']);
+        $plan = Plan::create($request->all());
+        return back()->with('info', ['success', 'El plan se ha creado correctamente']);
     }
 
     /**
@@ -60,9 +55,8 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
-        $permissions = $role->permissions()->get();
-        return view('admin.roles.show', compact('permissions', 'role'));
+        $plan = Plan::find($id);
+        return view('admin.subscriptions.show', compact('plan'));
     }
 
     /**
@@ -73,9 +67,8 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
-        $permissions = Permission::get();
-        return view('admin.roles.edit', compact('permissions', 'role'));
+        $plan = Plan::find($id);
+        return view('admin.subscriptions.edit', compact('plan'));
     }
 
     /**
@@ -87,10 +80,9 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = Role::find($id);
-        $role->update($request->except('permissions'));
-        $role->permissions()->sync($request->get('permissions'));
-        return back()->with('info', ['success', 'Rol actualizado correctamente']);
+        $plan = Plan::find($id);
+        $plan->update($request->all());
+        return back()->with('info', ['success', 'Plan actualizado correctamente']);
     }
 
     /**
@@ -101,7 +93,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id)->delete();
-        return back()->with('info', ['warning', 'Rol eliminado correctamente']);
+        $plan = Plan::find($id)->delete();
+        return back()->with('info', ['success', 'Plan eliminado correctamente']);
     }
 }

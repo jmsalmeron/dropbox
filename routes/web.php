@@ -13,7 +13,8 @@
 
 
 //vistas principales
-Route::view('/', 'index')->name('home');
+Route::get('/', 'SubscriptionController@index')->name('home');
+Route::post('/', 'SubscriptionController@store')->name('subscription.store');
 Route::view('/seguridad', 'secure')->name('secure');
 
 
@@ -22,7 +23,8 @@ Auth::routes();
 
 
 //admin
-Route::get('/home', 'HomeController@index')->name('dashboard');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard')
+    ->middleware(['role:ADMIN']);
 
 //Files
 Route::get('archivos/subir', 'FilesController@create')->name('files.create');
@@ -31,7 +33,6 @@ Route::get('archivos/imagenes', 'FilesController@images')->name('files.images');
 Route::get('archivos/videos', 'FilesController@videos')->name('files.videos');
 Route::get('archivos/musica', 'FilesController@audios')->name('files.audios');
 Route::get('archivos/documentos', 'FilesController@documents')->name('files.documents');
-//Route::put('archivos/editar/{id}', 'FilesController@edit');
 Route::patch('archivos/eliminar/{id}', 'FilesController@destroy')->name('files.destroy');
 
 //Roles
@@ -47,9 +48,26 @@ Route::patch('roles/{id}/eliminar', 'Admin\RolesController@destroy')->name('role
 Route::get('permisos', 'Admin\PermissionsController@index')->name('permissions.index');
 Route::get('permisos/agregar', 'Admin\PermissionsController@create')->name('permissions.create');
 Route::patch('permisos/agregar', 'Admin\PermissionsController@store')->name('permissions.store');
-//Route::get('permisos/{id}/ver', 'Admin\PermissionsController@show')->name('permissions.show');
 Route::get('permisos/{id}/editar', 'Admin\PermissionsController@edit')->name('permissions.edit');
 Route::patch('permisos/{id}/editar', 'Admin\PermissionsController@update')->name('permissions.update');
 Route::patch('permisos/{id}/eliminar', 'Admin\PermissionsController@destroy')->name('permissions.destroy');
+
+//Users
+Route::get('usuarios', 'Admin\UsersController@index')->name('users.index');
+Route::get('usuarios/agregar', 'Admin\UsersController@create')->name('users.create');
+Route::patch('usuarios/agregar', 'Admin\UsersController@store')->name('users.store');
+Route::get('usuarios/{id}/ver', 'Admin\UsersController@show')->name('users.show');
+Route::get('usuarios/{id}/editar', 'Admin\UsersController@edit')->name('users.edit');
+Route::patch('usuarios/{id}/editar', 'Admin\UsersController@update')->name('users.update');
+Route::patch('usuarios/{id}/eliminar', 'Admin\UsersController@destroy')->name('users.destroy');
+
+//Plans
+Route::get('plan', 'Admin\PlansController@index')->name('plans.index');
+Route::get('plan/agregar', 'Admin\PlansController@create')->name('plans.create');
+Route::patch('plan/agregar', 'Admin\PlansController@store')->name('plans.store');
+Route::get('plan/{id}/ver', 'Admin\PlansController@show')->name('plans.show');
+Route::get('plan/{id}/editar', 'Admin\PlansController@edit')->name('plans.edit');
+Route::patch('plan/{id}/editar', 'Admin\PlansController@update')->name('plans.update');
+Route::patch('plan/{id}/eliminar', 'Admin\PlansController@destroy')->name('plans.destroy');
 
 

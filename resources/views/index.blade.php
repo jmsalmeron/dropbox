@@ -10,8 +10,17 @@
                     <div class="container">
                         <h5 class="title-home pt-5 ml-5">Almacena tus archivos  <br> con más eficiencia y <b>seguridad</b></h5>
                         <p class="subtitle-home pt-4 ml-5">Obtén el espacio que necesitas. <br>Sube tus archivos y accede a ellos <br> desde cualquier dispositivo cuando quieras.</p>
-                        <a href="" class="btn btn-primary mt-4 ml-5">Pruébalo gratis 30 días</a>
-                        <p class="mt-2 ml-5">O bien, <a href="">cómpralo ya mismo</a></p>
+                        @guest
+                            <a href="{{ route('register') }}" class="btn btn-primary mt-4 ml-5">Pruébalo gratis 30 días</a>
+                            <p class="mt-2 ml-5">O bien, <a href="{{ route('login') }}">cómpralo ya mismo</a></p>
+                        @else
+                            @if(Auth::user()->hasRole('SUBS|ADMIN'))
+                                <a href="{{ route('files.create') }}" class="btn btn-danger mt-4 ml-5">Sube tus archivos</a>
+                            @else
+                                <a href="{{ route('register') }}" class="btn btn-primary mt-4 ml-5">Pruébalo gratis 30 días</a>
+                                <p class="mt-2 ml-5">O bien, <a href="{{ route('login') }}">cómpralo ya mismo</a></p>
+                            @endif
+                        @endguest
                     </div>
                 </div>
 
@@ -22,9 +31,18 @@
             </div>
         </section>
 
-        <div class="alert alert-light text-center alert-home" role="alert">
+        <div class="alert alert-light text-center alert-home mb-4" role="alert">
             Descubre todo el potencial que esta aplicación tiene para ti. Disponible 24/7.
         </div>
+
+        @if(session('info'))
+            <div class="container">
+                <div class="alert alert-{{ session('info')[0] }}" role="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">x</span>
+                    <strong>Éxito</strong> {{ session('info')[1] }}
+                </div>
+            </div>
+        @endif
 
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
             <p class="lead subtitle-home">Compara los planes y escoge el que más se adapte a lo que necesitas.</p>
@@ -33,66 +51,52 @@
         <div class="container">
             <div class="d-flex flex-row justify-content-center align-items-center">
                 <div class="row mt-5 pt-2">
+                    @foreach($plans as $plan)
                     <div class="col-lg-4 col-md-6 text-center">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h4 class="my-0 font-weight-normal">Mensual</h4>
+                                <h4 class="my-0 font-weight-normal">{{ $plan->plan_name }}</h4>
                             </div>
                             <div class="card-body text-left">
-                                <h1 class="card-title pricing-card-title">$19 <small class="text-muted">/ mes</small></h1>
+                                <h1 class="card-title pricing-card-title">{{ $plan->plan_price }}&euro;<small class="text-muted">/ {{ $plan->plan_duration }}</small></h1>
                                 <ul class="list-unstyled mt-3 mb-4">
-                                    <li><i class="fas fa-dollar-sign"></i> <del>Descuento</del></li>
-                                    <li><i class="fas fa-user-circle"></i> Múltiples inicios de sesión</li>
-                                    <li><i class="far fa-hdd"></i> 20 GB de almacenamiento</li>
-                                    <li><i class="fas fa-headset"></i> Soporte técnico</li>
-                                    <li><i class="far fa-calendar-alt"></i> Acceso 24/7</li>
-                                    <li><i class="fas fa-cloud-upload-alt"></i> Subir cualquier tipo de archivos</li>
+                                     {!! $plan->plan_description  !!}
+
                                 </ul>
-                                <button type="button" class="btn btn-lg btn-block btn-outline-info">Seleccionar plan</button>
+                                @guest
+                                    <a href="{{ route('login') }}" class="btn btn-lg btn-block btn-outline-info">Iniciar Sesion</a>
+                                @else
+                                    @can('payForThis', Auth::user())
+                                        @if(Auth::user()->hasRole('SUBS'))
+                                            <a class="btn btn-lg btn-block btn-outline-info" disabled="">Ya estas suscrito</a>
+                                        @else
+                                            <form action="{{ route('subscription.store') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="plan_type" value="{{ $plan->plan_type }}">
+                                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                        data-key="{{ env('STRIPE_KEY') }}"
+                                                        data-amount="{{ $plan->amount }}"
+                                                        data-name="Suscripcion Mensual"
+                                                        data-description="Suscripcion que dura 1 meses"
+                                                        data-label="Seleccionar plan"
+                                                        data-image="{{asset('img/logo.png')}}"
+                                                        data-email="{{ Auth()->user()->email }}"
+                                                        data-locale="auto">
+                                                </script>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <a class="btn btn-lg btn-block btn-outline-info">No puedes suscribirte</a>
+                                    @endcan
+                                @endguest
                             </div>
                         </div>
                     </div>
+                        @endforeach
 
-
-                    <div class="col-lg-4 col-md-6 text-center">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4 class="my-0 font-weight-normal">Semestral</h4>
-                            </div>
-                            <div class="card-body text-left">
-                                <h1 class="card-title pricing-card-title">$99 <small class="text-muted">/ mes</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4">
-                                    <li><i class="fas fa-dollar-sign"></i> Descuento de <b>$15</b></li>
-                                    <li><i class="fas fa-user-circle"></i> Múltiples inicios de sesión</li>
-                                    <li><i class="far fa-hdd"></i> 20 GB de almacenamiento</li>
-                                    <li><i class="fas fa-headset"></i> Soporte técnico</li>
-                                    <li><i class="far fa-calendar-alt"></i> Acceso 24/7</li>
-                                    <li><i class="fas fa-cloud-upload-alt"></i> Subir cualquier tipo de archivos</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-block btn-info">Seleccionar plan</button>
-                            </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-6 text-center">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h4 class="my-0 font-weight-normal">Anual</h4>
-                            </div>
-                            <div class="card-body text-left">
-                                <h1 class="card-title pricing-card-title">$199 <small class="text-muted">/ mes</small></h1>
-                                <ul class="list-unstyled mt-3 mb-4">
-                                    <li><i class="fas fa-dollar-sign"></i> Descuento de <b>$29</b></li>
-                                    <li><i class="fas fa-user-circle"></i> Múltiples inicios de sesión</li>
-                                    <li><i class="far fa-hdd"></i> 20 GB de almacenamiento</li>
-                                    <li><i class="fas fa-headset"></i> Soporte técnico</li>
-                                    <li><i class="far fa-calendar-alt"></i> Acceso 24/7</li>
-                                    <li><i class="fas fa-cloud-upload-alt"></i> Subir cualquier tipo de archivos</li>
-                                </ul>
-                                <button type="button" class="btn btn-lg btn-block btn-outline-info">Seleccionar plan</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

@@ -30,6 +30,12 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'roles.show', 'description' => 'Mostrar roles']);
         Permission::create(['name' => 'roles.destroy', 'description' => 'Eliminar roles']);
 
+        Permission::create(['name' => 'plans.index', 'description' => 'Ver todos los planes']);
+        Permission::create(['name' => 'plans.create', 'description' => 'Crear planes']);
+        Permission::create(['name' => 'plans.edit', 'description' => 'Editar planes']);
+        Permission::create(['name' => 'plans.show', 'description' => 'Mostrar planes']);
+        Permission::create(['name' => 'plans.destroy', 'description' => 'Eliminar planes']);
+
         $admin = Role::create(['name' => 'ADMIN']);
         $subscriber = Role::create(['name' => 'SUBS']);
 
@@ -37,7 +43,10 @@ class PermissionsTableSeeder extends Seeder
         $subscriber->givePermissionTo([
             'files.create',
             'files.store',
-            'files.images'
+            'files.images',
+            'files.videos',
+            'files.audios',
+            'files.documents'
         ]);
 
         $user = User::find(1);
