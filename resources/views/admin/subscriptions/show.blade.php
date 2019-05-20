@@ -65,11 +65,3 @@
         <a class="btn btn-outline-success" href="{{ route('plans.index') }}"><i class="fas fa-arrow-circle-left"></i> Volver</a>
 
 @endsection
-
-
-@section('internalscript')
-    <link rel="stylesheet" href="../../../css/admin.css">
-
-    <script src="../../../js/app.js"></script>
-@endsection
-

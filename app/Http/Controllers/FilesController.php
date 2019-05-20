@@ -61,22 +61,24 @@ class FilesController extends Controller
         $this->validate($request, [
            'file.*' => 'required|file|mimes:' .$all_ext . '|max:' .$max_size
         ]);
-        $uploadFile = new File();
+        $files = $request->file('file');
+        foreach($files as $file){
+            $uploadFile = new File();
+            $name = $file->getClientOriginalName();
+            $ext = $file->getClientOriginalExtension();
+            $type = $this->getType($ext);
 
-        $file = $request->file('file');
-        $name = $file->getClientOriginalName();
-        $ext = $file->getClientOriginalExtension();
-        $type = $this->getType($ext);
-
-        if(Storage::putFileAs('/public/'.$this->getUserFolder().'/'.$type.'/', $file, $name .'.'. $ext)){
-            $uploadFile::create([
-                'name' => $name,
-                'type' => $type,
-                'extension' => $ext,
-                'folder' => $this->getUserFolder(),
-                'user_id' => Auth::id()
-            ]);
+            if(Storage::putFileAs('/public/'.$this->getUserFolder().'/'.$type.'/', $file, $name .'.'. $ext)){
+                $uploadFile::create([
+                    'name' => $name,
+                    'type' => $type,
+                    'extension' => $ext,
+                    'folder' => $this->getUserFolder(),
+                    'user_id' => Auth::id()
+                ]);
+            }
         }
+
 
         return back()->with('info', ['success', 'Archivo subido con exito']);
     }

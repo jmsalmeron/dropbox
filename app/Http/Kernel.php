@@ -79,4 +79,9 @@ class Kernel extends HttpKernel
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
     ];
+
+    protected $middleware2 = [
+        \Styde\Html\Alert\Middleware::class,
+        \App\Http\Middleware\EncryptCookies::class,
+    ];
 }
