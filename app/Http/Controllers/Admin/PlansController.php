@@ -22,7 +22,7 @@ class PlansController extends Controller
     public function index()
     {
         $plans = Plan::all();
-        return view('admin.subscriptions.index', compact('plans'));
+        return view('admin.plans.index', compact('plans'));
     }
 
     /**
@@ -32,7 +32,7 @@ class PlansController extends Controller
      */
     public function create()
     {
-        return view('admin.subscriptions.create');
+        return view('admin.plans.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class PlansController extends Controller
     public function show($id)
     {
         $plan = Plan::find($id);
-        return view('admin.subscriptions.show', compact('plan'));
+        return view('admin.plans.show', compact('plan'));
     }
 
     /**
@@ -68,7 +68,7 @@ class PlansController extends Controller
     public function edit($id)
     {
         $plan = Plan::find($id);
-        return view('admin.subscriptions.edit', compact('plan'));
+        return view('admin.plans.edit', compact('plan'));
     }
 
     /**

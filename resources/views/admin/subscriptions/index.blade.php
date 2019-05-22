@@ -1,51 +1,71 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Todos los planes')
+@section('page', 'Mis subscripciones')
 
 @section('content')
 
     <div class="container">
         <div class="row">
-            <div class="sol-sm-12 mb-5">
-                <a class="btn btn-outline-success" href="{{ route('plans.create') }}"><i class="fas fa-plus-circle"></i> Agregar nuevo plan</a>
-            </div>
             <div class="col-sm-12 table-responsive">
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="row">ID</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Ver</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Eliminar</th>
+                        <th scope="col">ID Stripe</th>
+                        <th scope="col">Creada</th>
+                        <th scope="col">Final de la suscripcion</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($plans as $plan)
+                    @forelse($subscriptions as $subscription)
                         <tr>
-                            <th scope="row">{{ $plan->id }}</th>
-                            <th scope="row">{{$plan->plan_name}}</th>
-                            <th scope="row">${{$plan->plan_price}}</th>
+                            <th scope="row">{{$subscription->name}}</th>
+                            <th scope="row">{{$subscription->stripe_id}}</th>
+                            <th scope="row">{{$subscription->created_at->DiffForHumans()}}</th>
+                            <th scope="row">{{$subscription->ends_at ? $subscription->ends_at->DiffForHumans() : 'La suscripción está activa'}}</th>
                             <th scope="row">
-                                <a class="btn btn-outline-primary" href="{{ route('plans.show', $plan->id) }}"><i class="far fa-edit"></i> Ver</a>
+                                @if($subscription->ends_at)
+                                    <form action="{{ route('subscriptions.resume') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="plan_name" value="{{ $subscription->name }}">
+                                        <button class="btn btn-success">Suscribirme</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('subscriptions.cancel') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="plan_name" value="{{ $subscription->name }}">
+                                        <button class="btn btn-danger">Cancelar</button>
+                                    </form>
+                                @endif
                             </th>
-                            <th scope="row">
-                                <a class="btn btn-outline-success" href="{{ route('plans.edit', $plan->id) }}"><i class="fas fa-eye"></i> Editar</a>
-                            </th>
-                            <th scope="row">
-                                <form action="{{ route('plans.destroy', $plan->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="_method" value="PATCH">
-                                <button class="btn btn-outline-danger" type="submit"><i class="fas fa-trash"></i> Eliminar</button>
-                                </form>
-                            </th>
+
                         </tr>
                     </tbody>
-                    @endforeach
+
+                    @empty
+                        <div class="container mb-4">
+                            <div class="alert alert-warning" role="alert">
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">x</span>
+                                <strong>Vaya</strong> Parece que aun no tienes suscripciones
+                            </div>
+                        </div>
+                    @endforelse
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- Modal -->
+    @include('admin.partials.modals.files')
+
 @endsection
+
+
+@section('scripts')
+
+    @include('admin.partials.js.deleteModal')
+
+@endsection
+
+

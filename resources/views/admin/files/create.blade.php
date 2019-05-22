@@ -9,10 +9,6 @@
         <div class="row d-flex flex-row justify-content-center align-items-center pt-5">
             <div class="dz-message">
                 Sube tus archivos aqui&nbsp;
-                {{--<label for="file">--}}
-                    {{--Seleccione el archivo que quiere subir--}}
-                {{--</label>--}}
-                {{--<input type="file" class="form-control-file" name="file" required>--}}
             </div>
             <div class="dropzone-previews"></div>
             <div class="form-group">

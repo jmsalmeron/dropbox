@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Plan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
@@ -28,6 +29,12 @@ class SubscriptionController extends Controller
         return view('index', compact('plans'));
     }
 
+    public function subscriptions()
+    {
+        $subscriptions = Auth::user()->subscriptions;
+        return view('admin.subscriptions.index', compact('subscriptions'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -43,6 +50,24 @@ class SubscriptionController extends Controller
 
         Auth()->user()->assignRole('SUBS');
         return back()->with('info', ['success', 'Suscripcion completada']);
+    }
+
+    public function resume()
+    {
+        $subscription = \request()->user()->subscription(\request('plan_name'));
+
+        if ($subscription->cancelled() && $subscription->onGracePeriod()){
+            \request()->user()->subscription(\request('plan_name'))->resume();
+            return back()->with('info', ['success', 'La suscripcion continuara']);
+        }
+
+        return back();
+    }
+
+    public function cancel()
+    {
+        Auth::user()->subscription(\request('plan_name'))->cancel();
+        return back()->with('info', ['success', 'Suscripcion cancelada']);
     }
 
     /**
@@ -93,5 +118,21 @@ class SubscriptionController extends Controller
     {
         $plan = Plan::find($id)->delete();
         return back()->with('info', ['success', 'Plan eliminado correctamente']);
+    }
+
+    //Invoices method
+
+    public function invoices()
+    {
+        $invoices = Auth::user()->invoices();
+        return view('admin.subscriptions.invoices', compact('invoices'));
+    }
+
+    public function showInvoices(Request $request, $invoiceId)
+    {
+        return $request->user()->downloadInvoice($invoiceId, [
+            'vendor'  => 'AspergerBox',
+            'product' => 'Suscripción',
+        ]);
     }
 }

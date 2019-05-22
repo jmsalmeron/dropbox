@@ -74,7 +74,9 @@
                                                 @csrf
                                                 <input type="hidden" name="plan_type" value="{{ $plan->plan_type }}">
                                                 <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                                        data-key="{{ env('STRIPE_KEY') }}"
+                                                        {{--data-key="{{ env('STRIPE_KEY') }}"--}}
+                                                        {{-- Si falla cambiar los data-key --}}
+                                                        data-key="{{ config('services.stripe.key') }}"
                                                         data-amount="{{ $plan->amount }}"
                                                         data-name="Suscripcion Mensual"
                                                         data-description="Suscripcion que dura 1 meses"

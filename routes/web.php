@@ -70,4 +70,15 @@ Route::get('plan/{id}/editar', 'Admin\PlansController@edit')->name('plans.edit')
 Route::patch('plan/{id}/editar', 'Admin\PlansController@update')->name('plans.update');
 Route::patch('plan/{id}/eliminar', 'Admin\PlansController@destroy')->name('plans.destroy');
 
+//Subscriptions and Invoices
+Route::middleware('auth')->group(function(){
+    Route::get('mis-suscripciones', 'SubscriptionController@subscriptions')->name('subscriptions.index');
+    Route::post('continuar', 'SubscriptionController@resume')->name('subscriptions.resume');
+    Route::post('cancelar', 'SubscriptionController@cancel')->name('subscriptions.cancel');
 
+
+    //Invoices
+    Route::get('mis-facturas', 'SubscriptionController@invoices')->name('invoices.index');
+    Route::get('mis-facturas/{invoice}', 'SubscriptionController@showInvoices')->name('invoices.show');
+//    Route::get('mis-facturas', 'SubscriptionController@invoices')->name('invoices.index');
+});
