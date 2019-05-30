@@ -54,6 +54,12 @@ class FilesController extends Controller
         return view('admin.files.type.documents', compact('documents','folder'));
     }
 
+    public function paper()
+    {
+        $trashs = File::whereUserId(auth()->id())->OrderBy('id', 'desc')->onlyTrashed()->get();
+        return view('admin.files.type.trash', compact('trashs'));
+    }
+
     public function store(Request $request)
     {
         $max_size = (int)ini_get('upload_max_filesize') * 1000;
@@ -66,11 +72,14 @@ class FilesController extends Controller
             $uploadFile = new File();
             $name = $file->getClientOriginalName();
             $ext = $file->getClientOriginalExtension();
+            $number = rand(1, 100000);
+            $name_unique = $number . $name;
             $type = $this->getType($ext);
 
-            if(Storage::putFileAs('/public/'.$this->getUserFolder().'/'.$type.'/', $file, $name .'.'. $ext)){
+            if(Storage::putFileAs('/public/'.$this->getUserFolder().'/'.$type.'/', $file, $name_unique .'.'. $ext)){
                 $uploadFile::create([
                     'name' => $name,
+                    'name_unique' => $name_unique,
                     'type' => $type,
                     'extension' => $ext,
                     'folder' => $this->getUserFolder(),
@@ -115,14 +124,28 @@ class FilesController extends Controller
         return str_slug($folder);
     }
 
-    public function destroy(Request $request)
+    public function byebye($id)
     {
-        $file = File::findOrFail($request->get('file_id'));
-        if(Storage::disk('local')->exists('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name . '.' . $file->extension)){
-            if(Storage::disk('local')->delete('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name . '.' . $file->extension)){
-                $file->delete();
+        File::withTrashed()->where('id', $id)->restore();
+        $file = File::find($id);
+        if(Storage::disk('local')->exists('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name_unique . '.' . $file->extension)){
+            if(Storage::disk('local')->delete('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name_unique . '.' . $file->extension)){
+                $file->forceDelete();
                 return back()->with('info', ['success', 'El archivo se elimino correctamente']);
             }
         }
+    }
+
+    public function destroy(Request $request)
+    {
+        $file = File::findOrFail($request->get('file_id'));
+        $file->delete();
+        return back()->with('info', ['success', 'El archivo se elimino correctamente']);
+    }
+
+    public function restore($id)
+    {
+        File::withTrashed()->where('id', $id)->restore();
+        return back()->with('info', ['success', 'El archivo se restauro correctamente']);
     }
 }

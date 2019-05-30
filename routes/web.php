@@ -33,7 +33,10 @@ Route::get('archivos/imagenes', 'FilesController@images')->name('files.images');
 Route::get('archivos/videos', 'FilesController@videos')->name('files.videos');
 Route::get('archivos/musica', 'FilesController@audios')->name('files.audios');
 Route::get('archivos/documentos', 'FilesController@documents')->name('files.documents');
+Route::get('archivos/papelera', 'FilesController@paper')->name('files.trash');
 Route::patch('archivos/eliminar/{id}', 'FilesController@destroy')->name('files.destroy');
+Route::patch('archivos/borrar/{id}', 'FilesController@byebye')->name('files.delete');
+Route::patch('archivos/restaurar/{id}', 'FilesController@restore')->name('files.restore');
 
 //Roles
 Route::get('roles', 'Admin\RolesController@index')->name('roles.index');

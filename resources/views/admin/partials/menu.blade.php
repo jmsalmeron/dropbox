@@ -33,6 +33,9 @@
             <li>
                 <a href="{{ route('files.documents') }}">Documentos</a>
             </li>
+            <li>
+                <a href="{{ route('files.trash') }}">Papelera</a>
+            </li>
         </ul>
     </li>
 

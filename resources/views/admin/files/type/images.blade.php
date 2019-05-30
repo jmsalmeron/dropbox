@@ -9,9 +9,9 @@
             @forelse($images as $image)
                 <div class="col-md-4 col-sm-6 mt-3">
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{{ asset('storage') }}/{{ $folder }}/image/{{ $image->name }}.{{ $image->extension }}" alt="{{$image->name }}">
+                        <img class="card-img-top" src="{{ asset('storage') }}/{{ $folder }}/image/{{ $image->name_unique }}.{{ $image->extension }}" alt="{{$image->name_unique }}">
                         <div class="card-body">
-                            <a href="{{ asset('storage') }}/{{ $folder }}/image/{{ $image->name }}.{{ $image->extension }}" target="_blank" class="btn btn-primary float-left"><i class="fas fa-eye"></i> Ver </a>
+                            <a href="{{ asset('storage') }}/{{ $folder }}/image/{{ $image->name_unique }}.{{ $image->extension }}" target="_blank" class="btn btn-primary float-left"><i class="fas fa-eye"></i> Ver </a>
                             <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal" data-file-id="{{ $image->id }}" type="submit">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>

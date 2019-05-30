@@ -26,7 +26,7 @@
                             <div class="custom-control custom-checkbox mr-sm-2">
                                 @foreach($roles as $role)
                                     <li>
-                                        <input type="checkbox" name="permissions[]" class="custom-control-input" id="{{ $role->id }}" value="{{ $role->id }}"
+                                        <input type="checkbox" name="roles[]" class="custom-control-input" id="{{ $role->id }}" value="{{ $role->id }}"
                                         @if($user->roles->contains($role)) checked @endif
 
                                         >
