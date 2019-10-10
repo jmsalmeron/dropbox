@@ -22,7 +22,7 @@
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
-        <a class="navbar-brand ml-4 pt-4" href="#">
+        <a class="navbar-brand ml-4 pt-4" href="{{ route('homeuna ') }}">
             <img src={{ asset('img/logo.png') }} width="30" height="30" class="d-inline-block align-top" alt="">
             AspergerBox
         </a>

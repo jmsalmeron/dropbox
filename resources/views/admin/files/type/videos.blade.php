@@ -29,7 +29,7 @@
                             </th>
                             <th scope="row">{{$video->name}}</th>
                             <th scope="row">{{$video->created_at->DiffForHumans()}}</th>
-                            <th scope="row"><a class="btn btn-primary" target="_blank" href="{{ asset('storage') }}/{{ $folder }}/video/{{ $video->name }}.{{ $video->extension }}"><i class="fas fa-eye"></i> Ver</a></th>
+                            <th scope="row"><a class="btn btn-primary" target="_blank" href="{{ asset('storage') }}/{{ $folder }}/video/{{ $video->name_unique }}.{{ $video->extension }}"><i class="fas fa-eye"></i> Ver</a></th>
                             <th scope="row">
                                 <button class="btn btn-danger float-right" data-toggle="modal" data-target="#deleteModal" data-file-id="{{ $video->id }}" type="submit">
                                     <i class="fas fa-trash"></i> Eliminar

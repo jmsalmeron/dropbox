@@ -16,7 +16,10 @@ class UsersTableSeeder extends Seeder
            'name' => 'prueba',
            'email' => 'prueba@prueba.com',
            'username' => 'prueba',
-            'password' => bcrypt('prueba'),
-        ]);
+           'password' => bcrypt('prueba'),
+        ])->each(function (User $user){
+            factory(\App\File::class, 5)->create(['type' => 'document', 'extension' => 'pdf', 'folder' => 'prueba-1', 'user_id' => $user->id]);
+//            factory(\App\File::class, 5)->create(['type' => 'image', 'extension' => 'jpg', 'folder' => 'prueba-1', 'user_id' => $user->id]);
+        });
     }
 }

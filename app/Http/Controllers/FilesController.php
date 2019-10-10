@@ -126,8 +126,7 @@ class FilesController extends Controller
 
     public function byebye($id)
     {
-        File::withTrashed()->where('id', $id)->restore();
-        $file = File::find($id);
+        $file=  File::onlyTrashed()->where('id', $id)->first();
         if(Storage::disk('local')->exists('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name_unique . '.' . $file->extension)){
             if(Storage::disk('local')->delete('/public/' .$this->getUserFolder() .'/'. $file->type .'/'. $file->name_unique . '.' . $file->extension)){
                 $file->forceDelete();
@@ -145,7 +144,7 @@ class FilesController extends Controller
 
     public function restore($id)
     {
-        File::withTrashed()->where('id', $id)->restore();
+        File::onlyTrashed()->where('id', $id)->restore();
         return back()->with('info', ['success', 'El archivo se restauro correctamente']);
     }
 }
